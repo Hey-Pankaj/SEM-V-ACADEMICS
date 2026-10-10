@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Web Assistant - Intelligent Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="chat-app-container">
+        <!-- Sidebar / Info Panel -->
+        <aside class="chat-sidebar">
+            <div class="sidebar-header">
+                <div class="app-logo">
+                    <span class="logo-icon">🤖</span>
+                    <div class="logo-text">
+                        <h2>WebTech AI</h2>
+                        <span class="badge-mode" id="modeBadge">Demo Mode (Local AI)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Quick Inquiries</h3>
+                <p class="section-desc">Click any topic to test conversational responses:</p>
+                <div class="suggestion-chips" id="suggestionChips">
+                    <button class="chip" data-prompt="What is the difference between Flexbox and Grid?">Flexbox vs Grid</button>
+                    <button class="chip" data-prompt="Explain REST APIs with an example.">REST APIs Explained</button>
+                    <button class="chip" data-prompt="How do JavaScript Promises work?">JS Promises & Async</button>
+                    <button class="chip" data-prompt="What are the essential web security practices?">Web Security Basics</button>
+                    <button class="chip" data-prompt="What is Semantic HTML and why does it matter?">Semantic HTML</button>
+                </div>
+            </div>
+
+            <div class="sidebar-section capabilities">
+                <h3>Capabilities</h3>
+                <ul class="capability-list">
+                    <li><span class="check">✓</span> Contextual conversational reasoning</li>
+                    <li><span class="check">✓</span> Syntax-highlighted code explanations</li>
+                    <li><span class="check">✓</span> Keyboard dispatch (Enter &amp; Shift+Enter)</li>
+                    <li><span class="check">✓</span> Zero-leak local fallback demonstration</li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <button class="btn-secondary" id="clearChatBtn">🗑️ Clear Conversation</button>
+                <div class="system-status">
+                    <span class="status-dot online"></span>
+                    <span>Service Operational</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-main">
+            <!-- Chat Header -->
+            <header class="chat-header">
+                <div class="bot-profile">
+                    <div class="avatar">
+                        <span class="avatar-symbol">⚡</span>
+                        <span class="status-indicator"></span>
+                    </div>
+                    <div class="bot-info">
+                        <h1>Web Technology Assistant</h1>
+                        <p class="bot-status-text">Active &bull; Ready to assist with web engineering</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn" id="infoToggleBtn" title="About Assistant">ℹ️</button>
+                </div>
+            </header>
+
+            <!-- Messages Window -->
+            <div class="messages-container" id="messagesContainer" role="log" aria-live="polite">
+                <!-- Welcome Bot Message -->
+                <div class="message-row bot-row">
+                    <div class="msg-avatar">🤖</div>
+                    <div class="msg-bubble">
+                        <div class="msg-author">WebTech Bot <span class="msg-time" id="initialTime">Just now</span></div>
+                        <div class="msg-content">
+                            <p>Hello! I am your <strong>Web Technology Lab AI Assistant</strong>. 👋</p>
+                            <p>I can help you understand HTML5 semantic structures, CSS3 responsive design, JavaScript asynchronous patterns, API architectures, and web security. Ask a question below or click any quick topic on the sidebar!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Indicator Template (dynamic) -->
+            <div class="typing-indicator-row hidden" id="typingIndicator">
+                <div class="msg-avatar">🤖</div>
+                <div class="typing-bubble">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="typing-text">AI is thinking...</span>
+                </div>
+            </div>
+
+            <!-- Chat Input Area -->
+            <footer class="chat-input-area">
+                <form id="chatForm" class="chat-form" onsubmit="event.preventDefault(); sendMessage();">
+                    <div class="input-wrapper">
+                        <input 
+                            type="text" 
+                            id="userInput" 
+                            placeholder="Ask any web development question... (Press Enter to send)" 
+                            autocomplete="off"
+                            aria-label="Chat input message"
+                            required
+                        />
+                        <button type="submit" id="sendBtn" class="send-btn" aria-label="Send message">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="input-caption">
+                        <span>Tip: Press <strong>Enter</strong> to send. All responses are generated safely in real-time.</span>
+                    </div>
+                </form>
+            </footer>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

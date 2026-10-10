@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<!-- 
+================================================================================
+WEB TECHNOLOGY LAB - EXPERIMENT 9 (Commented Source Code Edition)
+Target Application: AI Conversational Chatbot Interface (EXP4)
+Architecture: Responsive Jamstack UI with Modular Natural Language Engine
+================================================================================
+This file establishes the semantic HTML5 structure of the chatbot:
+1. Application Container: Responsive split layout (sidebar options & chat canvas)
+2. Sidebar: Quick inquiry suggestion chips, feature matrix, and system status
+3. Header: Assistant identity, animated status beacon, and environment mode
+4. Message Stream: Dynamic log container with ARIA live region support
+5. Dynamic Typing Indicator: Three-dot animated bubble representing AI latency
+6. User Input Console: Dual-submission input field (Enter key & Click button)
+================================================================================
+-->
+<html lang="en">
+<head>
+    <!-- Standard UTF-8 character encoding supporting multilingual and emoji glyphs -->
+    <meta charset="UTF-8">
+    <!-- Responsive viewport directive preventing initial zooming on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebTech AI Assistant - Fully Commented Source Edition</title>
+    
+    <!-- Link to external stylesheet defining layout tokens and visual styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Google Font Preconnect Directives for Performance Optimization -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Main Application Flexbox Layout Wrapper -->
+    <div class="chat-app-container">
+        
+        <!-- ===================================================================
+             SIDEBAR NAVIGATION & METRICS PANEL
+             Houses suggestion chips, service operational status, and utility controls.
+             =================================================================== -->
+        <aside class="chat-sidebar" aria-label="Chatbot Options">
+            <div class="sidebar-header">
+                <div class="app-logo">
+                    <span class="logo-icon" aria-hidden="true">🤖</span>
+                    <div class="logo-text">
+                        <h2>WebTech AI</h2>
+                        <!-- Visual badge denoting local zero-leak demonstration mode -->
+                        <span class="badge-mode" id="modeBadge">Demo Mode (Local AI)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pre-configured Question Suggestion Chips -->
+            <div class="sidebar-section">
+                <h3>Quick Inquiries</h3>
+                <p class="section-desc">Click any topic to test conversational responses:</p>
+                <div class="suggestion-chips" id="suggestionChips">
+                    <button class="chip" data-prompt="What is the difference between Flexbox and Grid?">Flexbox vs Grid</button>
+                    <button class="chip" data-prompt="Explain REST APIs with an example.">REST APIs Explained</button>
+                    <button class="chip" data-prompt="How do JavaScript Promises work?">JS Promises &amp; Async</button>
+                    <button class="chip" data-prompt="What are the essential web security practices?">Web Security Basics</button>
+                    <button class="chip" data-prompt="What is Semantic HTML and why does it matter?">Semantic HTML</button>
+                </div>
+            </div>
+
+            <!-- Assistant Capabilities Overview -->
+            <div class="sidebar-section capabilities">
+                <h3>Capabilities</h3>
+                <ul class="capability-list">
+                    <li><span class="check">✓</span> Contextual conversational reasoning</li>
+                    <li><span class="check">✓</span> Syntax-highlighted code explanations</li>
+                    <li><span class="check">✓</span> Keyboard dispatch (Enter &amp; Shift+Enter)</li>
+                    <li><span class="check">✓</span> Zero-leak local fallback demonstration</li>
+                </ul>
+            </div>
+
+            <!-- Sidebar Actions & Service Status -->
+            <div class="sidebar-footer">
+                <button class="btn-secondary" id="clearChatBtn" type="button">🗑️ Clear Conversation</button>
+                <div class="system-status">
+                    <span class="status-dot online"></span>
+                    <span>Service Operational</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ===================================================================
+             MAIN CHAT SURFACE CANVAS
+             Coordinates message log history, typing animation, and input console.
+             =================================================================== -->
+        <main class="chat-main">
+            <!-- Header bar displaying bot profile and active status -->
+            <header class="chat-header">
+                <div class="bot-profile">
+                    <div class="avatar">
+                        <span class="avatar-symbol">⚡</span>
+                        <!-- Pulsing green status beacon indicating ready state -->
+                        <span class="status-indicator"></span>
+                    </div>
+                    <div class="bot-info">
+                        <h1>Web Technology Assistant</h1>
+                        <p class="bot-status-text">Active &bull; Ready to assist with web engineering</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn" id="infoToggleBtn" title="About Assistant" aria-label="About Assistant">ℹ️</button>
+                </div>
+            </header>
+
+            <!-- Dynamic Message Stream Container (Accessibility: role="log", aria-live="polite") -->
+            <div class="messages-container" id="messagesContainer" role="log" aria-live="polite">
+                <!-- Initial Welcome Greeting Bubble -->
+                <div class="message-row bot-row">
+                    <div class="msg-avatar">🤖</div>
+                    <div class="msg-bubble">
+                        <div class="msg-author">WebTech Bot <span class="msg-time" id="initialTime">Just now</span></div>
+                        <div class="msg-content">
+                            <p>Hello! I am your <strong>Web Technology Lab AI Assistant</strong>. 👋</p>
+                            <p>I can help you understand HTML5 semantic structures, CSS3 responsive design, JavaScript asynchronous patterns, API architectures, and web security. Ask a question below or click any quick topic on the sidebar!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Cognitive Latency Typing Indicator (Toggled via JS) -->
+            <div class="typing-indicator-row hidden" id="typingIndicator" aria-hidden="true">
+                <div class="msg-avatar">🤖</div>
+                <div class="typing-bubble">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="typing-text">AI is thinking...</span>
+                </div>
+            </div>
+
+            <!-- Footer Message Input Area -->
+            <footer class="chat-input-area">
+                <form id="chatForm" class="chat-form" onsubmit="event.preventDefault(); sendMessage();">
+                    <div class="input-wrapper">
+                        <input 
+                            type="text" 
+                            id="userInput" 
+                            placeholder="Ask any web development question... (Press Enter to send)" 
+                            autocomplete="off"
+                            aria-label="Chat input message"
+                            required
+                        />
+                        <button type="submit" id="sendBtn" class="send-btn" aria-label="Send message">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="input-caption">
+                        <span>Tip: Press <strong>Enter</strong> to send. All responses are generated safely in real-time.</span>
+                    </div>
+                </form>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Client-Side Conversational Logic Script -->
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- SEO & Metadata Optimization (AI Recommendation) -->
+    <title>WebTech AI Assistant - Production Cloud Edition</title>
+    <meta name="description" content="AI-assisted Web Technology conversational assistant deployed for academic research and developer workflows.">
+    <meta name="keywords" content="web technology, chatbot, ai assistant, frontend, javascript, html5, css3">
+    <meta name="author" content="Third Year Computer Engineering - WTL">
+    <meta name="theme-color" content="#0f172a">
+    
+    <!-- Open Graph Protocol -->
+    <meta property="og:title" content="WebTech AI Assistant">
+    <meta property="og:description" content="Conversational AI agent for web engineering concepts and tutorials.">
+    <meta property="og:type" content="website">
+
+    <!-- Preconnect & Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="chat-app-container">
+        <!-- Sidebar Panel -->
+        <aside class="chat-sidebar" aria-label="Assistant Options">
+            <div class="sidebar-header">
+                <div class="app-logo">
+                    <span class="logo-icon" aria-hidden="true">🚀</span>
+                    <div class="logo-text">
+                        <h2>WebTech Cloud</h2>
+                        <span class="badge-mode">Production Build</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Cloud Inquiries</h3>
+                <p class="section-desc">Test cloud-ready conversational topics:</p>
+                <div class="suggestion-chips" id="suggestionChips">
+                    <button class="chip" data-prompt="How do cloud CDNs improve web performance?">Cloud CDN Caching</button>
+                    <button class="chip" data-prompt="What are standard HTTP security headers?">HTTP Security Headers</button>
+                    <button class="chip" data-prompt="Explain Serverless Edge Functions vs Traditional Backends.">Serverless Edge Functions</button>
+                    <button class="chip" data-prompt="What are essential Core Web Vitals metrics?">Core Web Vitals</button>
+                </div>
+            </div>
+
+            <div class="sidebar-section capabilities">
+                <h3>Production Features</h3>
+                <ul class="capability-list">
+                    <li><span class="check">✓</span> Pre-compressed static assets</li>
+                    <li><span class="check">✓</span> Strict Content Security Policy</li>
+                    <li><span class="check">✓</span> Edge-cached HTTP response headers</li>
+                    <li><span class="check">✓</span> 100% Mobile responsive layout</li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <button class="btn-secondary" id="clearChatBtn" type="button">🗑️ Clear Chat History</button>
+                <div class="system-status">
+                    <span class="status-dot online"></span>
+                    <span>Edge CDN: Healthy (24ms)</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Surface -->
+        <main class="chat-main">
+            <header class="chat-header">
+                <div class="bot-profile">
+                    <div class="avatar">
+                        <span class="avatar-symbol">🌐</span>
+                        <span class="status-indicator"></span>
+                    </div>
+                    <div class="bot-info">
+                        <h1>WebTech AI Assistant (Cloud Edition)</h1>
+                        <p class="bot-status-text">Production Build v1.2 &bull; Edge Deployed</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <span class="env-tag">PRODUCTION</span>
+                </div>
+            </header>
+
+            <!-- Message Stream -->
+            <div class="messages-container" id="messagesContainer" role="log" aria-live="polite">
+                <div class="message-row bot-row">
+                    <div class="msg-avatar">🌐</div>
+                    <div class="msg-bubble">
+                        <div class="msg-author">WebTech Edge Bot <span class="msg-time" id="initialTime">Just now</span></div>
+                        <div class="msg-content">
+                            <p>Welcome to the <strong>WebTech AI Production Deployment</strong>! 🚀</p>
+                            <p>This application is optimized according to AI performance and security recommendations, featuring edge caching directives, CSP headers, semantic accessibility, and instant query resolution. How can I help you today?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div class="typing-indicator-row hidden" id="typingIndicator">
+                <div class="msg-avatar">🌐</div>
+                <div class="typing-bubble">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="typing-text">Processing cloud query...</span>
+                </div>
+            </div>
+
+            <!-- Input Form -->
+            <footer class="chat-input-area">
+                <form id="chatForm" class="chat-form" onsubmit="event.preventDefault(); sendMessage();">
+                    <div class="input-wrapper">
+                        <input 
+                            type="text" 
+                            id="userInput" 
+                            placeholder="Ask any web development or cloud deployment question... (Press Enter to send)" 
+                            autocomplete="off"
+                            aria-label="Ask a question"
+                            required
+                        />
+                        <button type="submit" id="sendBtn" class="send-btn" aria-label="Send message">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="input-caption">
+                        <span>Deployed with automated asset caching, zero client secrets, and full responsive support.</span>
+                    </div>
+                </form>
+            </footer>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

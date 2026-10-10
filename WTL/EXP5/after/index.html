@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank of India - Security Dashboard (Optimized & Debugged)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Mobile Sidebar Backdrop Overlay (Fixed Bug: Trapped Sidebar on Mobile) -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()" aria-hidden="true"></div>
+
+    <!-- ================= WEB LAYOUT CONTAINER ================= -->
+    <div class="web-layout">
+        
+        <!-- SIDEBAR PANEL (Collapsible Station) -->
+        <aside class="sidebar" id="sidebarPanel" aria-label="Main Navigation">
+            <!-- Close Button (For mobile viewports) -->
+            <button class="close-sidebar-btn" onclick="toggleSidebar()" aria-label="Close navigation menu">❌ Close Menu</button>
+
+            <!-- Bank Logo & Name Box -->
+            <div class="bank-logo-box">
+                <div class="logo-circle">
+                    <span class="logo-icon" role="img" aria-label="Bank building">🏢</span> 
+                </div>
+                <h1 class="bank-name">Bank of India</h1>
+            </div>
+
+            <!-- Navigation Links (Synchronized Active State) -->
+            <nav class="sidebar-menu" id="side-menu">
+                <button class="menu-btn active-menu" data-target="dashboard-page" aria-current="page" onclick="navigateTo('dashboard-page', this)">
+                    <span class="menu-icon" aria-hidden="true">🏠</span> Home
+                </button>
+                <button class="menu-btn" data-target="details-page" onclick="navigateTo('details-page', this)">
+                    <span class="menu-icon" aria-hidden="true">📄</span> Customer Details
+                </button>
+                <button class="menu-btn" data-target="transactions-page" onclick="navigateTo('transactions-page', this)">
+                    <span class="menu-icon" aria-hidden="true">🔍</span> Transaction Detection
+                </button>
+                <button class="menu-btn logout-btn" onclick="logOut()">
+                    <span class="menu-icon" aria-hidden="true">🚪</span> Exit / Log Out
+                </button>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT DISPLAY AREA -->
+        <main class="main-content">
+            
+            <!-- Top bar to open menu on mobile viewports -->
+            <div class="top-nav-bar" id="topNavBar" style="display: none;">
+                <button class="open-sidebar-btn" onclick="toggleSidebar()" aria-label="Open navigation menu">☰ Open Menu</button>
+                <span class="top-bar-title">Bank of India 🏢</span>
+            </div>
+
+            <!-- ================= PAGE 1: LOGIN ================= -->
+            <section id="login-page" class="page active-page" aria-labelledby="login-heading">
+                <div class="login-window">
+                    <span class="auth-eyebrow">BANK OF INDIA</span>
+                    <h2 id="login-heading">Welcome back</h2>
+                    <p class="helper-text">Sign in to view your account and recent activity securely.</p>
+                    <div class="auth-tabs" role="tablist" aria-label="Account access">
+                        <button class="auth-tab active-tab" id="login-tab" type="button" role="tab" aria-selected="true" aria-controls="login-form" onclick="showAuthForm('login')">Log in</button>
+                        <button class="auth-tab" id="signup-tab" type="button" role="tab" aria-selected="false" aria-controls="signup-form" onclick="showAuthForm('signup')">Sign up</button>
+                    </div>
+                    <form id="login-form" class="auth-form" onsubmit="logIn(event)">
+                        <label for="acc-number">Account number</label>
+                        <input type="text" placeholder="e.g. 123456789000" id="acc-number" autocomplete="username" pattern="[0-9]{10,16}" title="Please enter a 10-16 digit account number" required />
+                        
+                        <label for="pin">PIN</label>
+                        <input type="password" placeholder="Enter your 4-digit PIN" id="pin" autocomplete="current-password" pattern="[0-9]{4,6}" inputmode="numeric" title="Please enter 4 to 6 numeric digits" required />
+                        
+                        <button class="btn btn-start" type="submit">Log in to your account</button>
+                    </form>
+                    <form id="signup-form" class="auth-form" onsubmit="signUp(event)" hidden>
+                        <label for="signup-name">Full name</label>
+                        <input type="text" placeholder="Enter your full name" id="signup-name" autocomplete="name" required />
+                        
+                        <label for="signup-account">Account number</label>
+                        <input type="text" placeholder="Enter your 10-16 digit account number" id="signup-account" autocomplete="username" pattern="[0-9]{10,16}" required />
+                        
+                        <label for="signup-pin">Create PIN (4 digits)</label>
+                        <input type="password" placeholder="4 digits" id="signup-pin" autocomplete="new-password" pattern="[0-9]{4}" inputmode="numeric" required />
+                        
+                        <label for="confirm-pin">Confirm PIN</label>
+                        <input type="password" placeholder="Re-enter your 4-digit PIN" id="confirm-pin" autocomplete="new-password" pattern="[0-9]{4}" inputmode="numeric" required />
+                        
+                        <button class="btn btn-start" type="submit">Create account</button>
+                    </form>
+                    <p class="auth-message" id="auth-message" role="status" aria-live="polite"></p>
+                    <p class="demo-note">Demo interface only. Validated and optimized for Web Technology Lab Experiment 5.</p>
+                </div>
+            </section>
+
+            <!-- ================= PAGE 2: DASHBOARD ================= -->
+            <section id="dashboard-page" class="page" aria-labelledby="dash-heading">
+                <div class="welcome-banner">
+                    <h2 id="dash-heading">Welcome back, <span class="user-highlight">John Doe</span> 👤</h2>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Balance Card -->
+                    <div class="card balance-card">
+                        <span class="card-icon" aria-hidden="true">💰</span>
+                        <h3>Your Safe Money</h3>
+                        <div class="balance-amount">$4,850.00</div>
+                    </div>
+
+                    <!-- Status Card -->
+                    <div class="card status-card">
+                        <span class="card-icon" aria-hidden="true">🛡️</span>
+                        <h3>Account Status</h3>
+                        <div class="status-badge">SAFE &amp; ACTIVE ✔️</div>
+                    </div>
+                </div>
+
+                <div class="helper-notice">
+                    <p>💡 Use the <strong>Transaction Detection</strong> menu option to inspect recent financial activity for anomalous transactions.</p>
+                </div>
+            </section>
+
+            <!-- ================= PAGE 3: DETAILS ================= -->
+            <section id="details-page" class="page" aria-labelledby="details-heading">
+                <div class="section-header">
+                    <h2 id="details-heading">📄 Customer Profile Details</h2>
+                </div>
+                
+                <!-- Semantic Description List (Fixed WCAG Accessibility Issue) -->
+                <dl class="data-table">
+                    <div class="table-row">
+                        <dt class="label">Full Name:</dt>
+                        <dd class="value">John Doe</dd>
+                    </div>
+                    <div class="table-row">
+                        <dt class="label">Account Number:</dt>
+                        <dd class="value">1234 - 5678 - 9000</dd>
+                    </div>
+                    <div class="table-row">
+                        <dt class="label">Registered Phone:</dt>
+                        <dd class="value">+1 (555) 019-2834</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <!-- ================= PAGE 4: TRANSACTIONS & FRAUD ================= -->
+            <section id="transactions-page" class="page" aria-labelledby="tx-heading">
+                <div class="section-header">
+                    <h2 id="tx-heading">🔍 Fraud &amp; Transaction Detection</h2>
+                </div>
+
+                <div class="color-guide">
+                    <div class="guide-item"><span class="indicator green-box"></span> Money In (Safe)</div>
+                    <div class="guide-item"><span class="indicator red-box"></span> Money Out (Safe)</div>
+                    <div class="guide-item"><span class="indicator yellow-box"></span> Warning (Suspicious Fraud!)</div>
+                </div>
+
+                <div class="timeline-container">
+                    <div class="tx-row safe-in">
+                        <div class="tx-left">
+                            <span class="tx-badge">✔️ SAFE</span>
+                            <div class="tx-desc">Monthly Salary Received</div>
+                            <div class="tx-time">July 15, 2026</div>
+                        </div>
+                        <div class="tx-right text-green">+$1,200.00</div>
+                    </div>
+
+                    <div class="tx-row safe-out">
+                        <div class="tx-left">
+                            <span class="tx-badge">✔️ SAFE</span>
+                            <div class="tx-desc">Grocery Store Bill Paid</div>
+                            <div class="tx-time">July 14, 2026</div>
+                        </div>
+                        <div class="tx-right text-red">-$85.00</div>
+                    </div>
+
+                    <!-- FRAUD DETECTED FLAGGED ENTRY -->
+                    <div class="tx-row fraud-warn">
+                        <div class="tx-left">
+                            <span class="tx-badge badge-alert">⚠️ FRAUD DETECTED</span>
+                            <div class="tx-desc">Unknown Store Spend - New York City</div>
+                            <div class="tx-time">July 12, 2026 (Unusual Location Area)</div>
+                        </div>
+                        <div class="tx-right text-red">-$450.00</div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Optimized Navigation & Interface Script -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebarPanel');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            const isOpening = sidebar.classList.contains('collapsed');
+            
+            sidebar.classList.toggle('collapsed');
+            
+            // Sync mobile backdrop visibility
+            if (window.innerWidth <= 800) {
+                backdrop.classList.toggle('active', isOpening);
+            }
+        }
+
+        // Synchronized Active Menu State (Bug Fix #1)
+        function setActiveButton(targetPageId) {
+            const buttons = document.querySelectorAll('.menu-btn');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('data-target') === targetPageId) {
+                    btn.classList.add('active-menu');
+                    btn.setAttribute('aria-current', 'page');
+                } else {
+                    btn.classList.remove('active-menu');
+                    btn.removeAttribute('aria-current');
+                }
+            });
+        }
+
+        function navigateTo(pageId, element) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active-page'));
+
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active-page');
+            }
+
+            // Sync menu state consistently
+            setActiveButton(pageId);
+
+            // Auto collapse menu on mobile viewports after picking
+            if (window.innerWidth <= 800) {
+                document.getElementById('sidebarPanel').classList.add('collapsed');
+                document.getElementById('sidebarBackdrop').classList.remove('active');
+            }
+        }
+
+        function showAuthForm(mode) {
+            const isLogin = mode === 'login';
+            document.getElementById('login-form').hidden = !isLogin;
+            document.getElementById('signup-form').hidden = isLogin;
+            document.getElementById('login-tab').classList.toggle('active-tab', isLogin);
+            document.getElementById('signup-tab').classList.toggle('active-tab', !isLogin);
+            document.getElementById('login-tab').setAttribute('aria-selected', isLogin);
+            document.getElementById('signup-tab').setAttribute('aria-selected', !isLogin);
+            document.getElementById('auth-message').textContent = '';
+        }
+
+        function logIn(event) {
+            event.preventDefault();
+            document.getElementById('side-menu').style.display = 'block';
+            document.getElementById('topNavBar').style.display = 'flex';
+            navigateTo('dashboard-page');
+        }
+
+        function signUp(event) {
+            event.preventDefault();
+            const pin = document.getElementById('signup-pin').value;
+            const confirmPin = document.getElementById('confirm-pin').value;
+            if (pin !== confirmPin) {
+                document.getElementById('auth-message').textContent = 'The PINs do not match. Please try again.';
+                document.getElementById('confirm-pin').focus();
+                return;
+            }
+
+            document.getElementById('acc-number').value = document.getElementById('signup-account').value;
+            document.getElementById('pin').value = pin;
+            document.getElementById('signup-form').reset();
+            showAuthForm('login');
+            document.getElementById('auth-message').textContent = 'Account created successfully! You may now log in.';
+        }
+
+        function logOut() {
+            document.getElementById('side-menu').style.display = 'none';
+            document.getElementById('topNavBar').style.display = 'none';
+            document.getElementById('acc-number').value = '';
+            document.getElementById('pin').value = '';
+            
+            // Cleanly reset active state
+            const buttons = document.querySelectorAll('.menu-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active-menu');
+                btn.removeAttribute('aria-current');
+            });
+
+            navigateTo('login-page');
+        }
+
+        // Initialize mobile state on load
+        if (window.innerWidth <= 800) {
+            document.getElementById('sidebarPanel').classList.add('collapsed');
+        }
+    </script>
+</body>
+</html>

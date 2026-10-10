@@ -1,0 +1,550 @@
+/* ==============================================================================
+   WEB TECHNOLOGY LAB - EXPERIMENT 9 (Commented Source Code Edition)
+   Target Application: AI Conversational Chatbot Interface (EXP4)
+   File: style.css
+   Description: CSS Custom Properties design system, flexbox layout, dark glass
+                theming, responsive breakpoints, and keyframe animations.
+   ============================================================================== */
+
+/* --- 1. DESIGN TOKENS & ROOT CUSTOM PROPERTIES --- */
+:root {
+    /* Background Surface Hierarchy */
+    --bg-primary: #0f172a;        /* Deep slate backdrop */
+    --bg-secondary: #1e293b;      /* Main container background */
+    --bg-tertiary: #334155;       /* Elevated element surface */
+
+    /* Accent & Brand Colors */
+    --accent: #6366f1;            /* Vibrant Indigo brand tone */
+    --accent-hover: #4f46e5;      /* Darker indigo for hover states */
+    --accent-glow: rgba(99, 102, 241, 0.25); /* Subtle glow drop shadow */
+
+    /* Typography Color Hierarchy */
+    --text-primary: #f8fafc;      /* Pure high-contrast white-slate */
+    --text-secondary: #94a3b8;    /* Muted slate for subtitles */
+    --text-muted: #64748b;        /* Low-priority helper text */
+    --border-color: rgba(255, 255, 255, 0.08); /* Translucent glass border */
+
+    /* Chat Bubble Surfaces */
+    --bot-bubble-bg: #1e293b;     /* Dark bubble for assistant responses */
+    --user-bubble-bg: #4f46e5;    /* High-contrast indigo for user messages */
+
+    /* Border Radii */
+    --radius-lg: 16px;
+    --radius-md: 10px;
+    --radius-sm: 6px;
+
+    /* Font Families */
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'Fira Code', monospace;
+}
+
+/* --- 2. UNIVERSAL RESET --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.5;
+    padding: 16px;
+}
+
+/* --- 3. MASTER APPLICATION CONTAINER --- */
+.chat-app-container {
+    width: 100%;
+    max-width: 1180px;
+    height: 90vh;
+    min-height: 620px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px var(--accent-glow);
+    display: flex;
+    overflow: hidden;
+}
+
+/* --- 4. SIDEBAR NAVIGATION & SUGGESTION DRAWER --- */
+.chat-sidebar {
+    width: 320px;
+    background: rgba(15, 23, 42, 0.85);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    gap: 24px;
+}
+
+.app-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    font-size: 2rem;
+    background: rgba(99, 102, 241, 0.15);
+    border-radius: var(--radius-md);
+    padding: 6px;
+    display: inline-flex;
+}
+
+.logo-text h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.badge-mode {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.sidebar-section h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.section-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.suggestion-chips {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.chip {
+    text-align: left;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chip:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    transform: translateX(4px);
+}
+
+.capability-list {
+    list-style: none;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.capability-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.capability-list .check {
+    color: #10b981;
+    font-weight: 700;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 10px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-secondary:hover {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.system-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.status-dot.online {
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+}
+
+/* --- 5. MAIN CHAT SECTION --- */
+.chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent 40%), var(--bg-secondary);
+}
+
+.chat-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(8px);
+}
+
+.bot-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+.avatar-symbol {
+    font-size: 1.3rem;
+}
+
+.status-indicator {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 10px;
+    height: 10px;
+    background: #10b981;
+    border: 2px solid var(--bg-secondary);
+    border-radius: 50%;
+}
+
+.bot-info h1 {
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.bot-status-text {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.icon-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* --- 6. MESSAGES LOG CONTAINER --- */
+.messages-container {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    scroll-behavior: smooth;
+}
+
+.message-row {
+    display: flex;
+    gap: 12px;
+    max-width: 82%;
+    animation: fadeIn 0.25s ease-out;
+}
+
+.user-row {
+    margin-left: auto;
+    flex-direction: row-reverse;
+}
+
+.msg-avatar {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 2px;
+}
+
+.msg-bubble {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 18px;
+    border-radius: var(--radius-lg);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.bot-row .msg-bubble {
+    background: var(--bot-bubble-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-top-left-radius: 4px;
+}
+
+.user-row .msg-bubble {
+    background: var(--user-bubble-bg);
+    color: #ffffff;
+    border-top-right-radius: 4px;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.msg-author {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.user-row .msg-author {
+    color: rgba(255, 255, 255, 0.8);
+    justify-content: flex-end;
+}
+
+.msg-time {
+    font-weight: 400;
+    color: var(--text-muted);
+}
+
+.user-row .msg-time {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.msg-content p {
+    margin-bottom: 8px;
+}
+
+.msg-content p:last-child {
+    margin-bottom: 0;
+}
+
+.msg-content code {
+    font-family: var(--font-mono);
+    background: rgba(0, 0, 0, 0.35);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.88em;
+}
+
+.msg-content pre {
+    background: #090d16;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    margin: 10px 0;
+    overflow-x: auto;
+}
+
+.msg-content pre code {
+    background: transparent;
+    padding: 0;
+    color: #38bdf8;
+}
+
+.msg-content ul {
+    margin-left: 20px;
+    margin-bottom: 8px;
+}
+
+.msg-content li {
+    margin-bottom: 4px;
+}
+
+/* --- 7. ANIMATED TYPING INDICATOR BUBBLE --- */
+.typing-indicator-row {
+    display: flex;
+    gap: 12px;
+    padding: 0 24px 16px 24px;
+    align-items: center;
+}
+
+.typing-indicator-row.hidden {
+    display: none;
+}
+
+.typing-bubble {
+    background: var(--bg-tertiary);
+    padding: 10px 16px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background: var(--text-secondary);
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.dot:nth-child(1) { animation-delay: -0.32s; }
+.dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: scale(0); opacity: 0.4; }
+    40% { transform: scale(1); opacity: 1; }
+}
+
+.typing-text {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-left: 4px;
+}
+
+/* --- 8. INPUT CONTROL DOCK --- */
+.chat-input-area {
+    padding: 16px 24px 20px;
+    border-top: 1px solid var(--border-color);
+    background: rgba(15, 23, 42, 0.7);
+}
+
+.chat-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: var(--bg-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-md);
+    padding: 4px 6px 4px 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.input-wrapper input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 10px 0;
+}
+
+.input-wrapper input::placeholder {
+    color: var(--text-muted);
+}
+
+.send-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.send-btn:hover {
+    background: var(--accent-hover);
+    transform: scale(1.05);
+}
+
+.send-btn:active {
+    transform: scale(0.95);
+}
+
+.input-caption {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 9. RESPONSIVE MEDIA QUERIES --- */
+@media (max-width: 860px) {
+    .chat-app-container {
+        height: 98vh;
+        border-radius: 0;
+    }
+    .chat-sidebar {
+        display: none;
+    }
+    .message-row {
+        max-width: 92%;
+    }
+}

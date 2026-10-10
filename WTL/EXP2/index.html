@@ -53,12 +53,33 @@
             <!-- ================= PAGE 1: LOGIN ================= -->
             <section id="login-page" class="page active-page">
                 <div class="login-window">
-                    <span class="large-emoji">🔑</span>
-                    <h2>Secure Login</h2>
-                    <p class="helper-text">Please enter your details to open the website.</p>
-                    <input type="text" placeholder="Enter Account Number" id="acc-number" />
-                    <input type="password" placeholder="Enter Secret PIN" id="pin" />
-                    <button class="btn btn-start" onclick="logIn()">ENTER BANK WEBSITE</button>
+                    <span class="auth-eyebrow">BANK OF INDIA</span>
+                    <h2>Welcome back</h2>
+                    <p class="helper-text">Sign in to view your account and recent activity.</p>
+                    <div class="auth-tabs" role="tablist" aria-label="Account access">
+                        <button class="auth-tab active-tab" id="login-tab" type="button" role="tab" aria-selected="true" aria-controls="login-form" onclick="showAuthForm('login')">Log in</button>
+                        <button class="auth-tab" id="signup-tab" type="button" role="tab" aria-selected="false" aria-controls="signup-form" onclick="showAuthForm('signup')">Sign up</button>
+                    </div>
+                    <form id="login-form" class="auth-form" onsubmit="logIn(event)">
+                        <label for="acc-number">Account number</label>
+                        <input type="text" placeholder="e.g. 123456789000" id="acc-number" autocomplete="username" required />
+                        <label for="pin">PIN</label>
+                        <input type="password" placeholder="Enter your PIN" id="pin" autocomplete="current-password" required />
+                        <button class="btn btn-start" type="submit">Log in to your account</button>
+                    </form>
+                    <form id="signup-form" class="auth-form" onsubmit="signUp(event)" hidden>
+                        <label for="signup-name">Full name</label>
+                        <input type="text" placeholder="Enter your full name" id="signup-name" autocomplete="name" required />
+                        <label for="signup-account">Account number</label>
+                        <input type="text" placeholder="Enter your account number" id="signup-account" autocomplete="username" required />
+                        <label for="signup-pin">Create PIN</label>
+                        <input type="password" placeholder="At least 4 characters" id="signup-pin" autocomplete="new-password" minlength="4" required />
+                        <label for="confirm-pin">Confirm PIN</label>
+                        <input type="password" placeholder="Re-enter your PIN" id="confirm-pin" autocomplete="new-password" minlength="4" required />
+                        <button class="btn btn-start" type="submit">Create account</button>
+                    </form>
+                    <p class="auth-message" id="auth-message" role="status" aria-live="polite"></p>
+                    <p class="demo-note">Demo interface only. Do not enter real banking details.</p>
                 </div>
             </section>
 
@@ -185,11 +206,40 @@
             }
         }
 
-        function logIn() {
+        function showAuthForm(mode) {
+            const isLogin = mode === 'login';
+            document.getElementById('login-form').hidden = !isLogin;
+            document.getElementById('signup-form').hidden = isLogin;
+            document.getElementById('login-tab').classList.toggle('active-tab', isLogin);
+            document.getElementById('signup-tab').classList.toggle('active-tab', !isLogin);
+            document.getElementById('login-tab').setAttribute('aria-selected', isLogin);
+            document.getElementById('signup-tab').setAttribute('aria-selected', !isLogin);
+            document.getElementById('auth-message').textContent = '';
+        }
+
+        function logIn(event) {
+            event.preventDefault();
             document.getElementById('side-menu').style.display = 'block';
             document.getElementById('topNavBar').style.display = 'flex';
             navigateTo('dashboard-page');
             document.querySelector('.menu-btn').classList.add('active-menu');
+        }
+
+        function signUp(event) {
+            event.preventDefault();
+            const pin = document.getElementById('signup-pin').value;
+            const confirmPin = document.getElementById('confirm-pin').value;
+            if (pin !== confirmPin) {
+                document.getElementById('auth-message').textContent = 'The PINs do not match. Please try again.';
+                document.getElementById('confirm-pin').focus();
+                return;
+            }
+
+            document.getElementById('acc-number').value = document.getElementById('signup-account').value;
+            document.getElementById('pin').value = pin;
+            document.getElementById('signup-form').reset();
+            showAuthForm('login');
+            document.getElementById('auth-message').textContent = 'Account request complete for this demo. You can now log in.';
         }
 
         function logOut() {
@@ -198,6 +248,10 @@
             document.getElementById('acc-number').value = '';
             document.getElementById('pin').value = '';
             navigateTo('login-page');
+        }
+
+        if (window.innerWidth <= 800) {
+            document.getElementById('sidebarPanel').classList.add('collapsed');
         }
     </script>
 </body>

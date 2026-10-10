@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank of India - Security Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ================= WEB LAYOUT CONTAINER ================= -->
+    <div class="web-layout">
+        
+        <!-- SIDEBAR PANEL (Collapsible Branding & Menu) -->
+        <aside class="sidebar" id="sidebarPanel">
+            <!-- Close Button (Visible mainly on open states) -->
+            <button class="close-sidebar-btn" onclick="toggleSidebar()">❌ Close Menu</button>
+
+            <!-- Bank Logo & Name Box -->
+            <div class="bank-logo-box">
+                <div class="logo-circle">
+                    <span class="logo-icon">🏢</span> 
+                </div>
+                <h1 class="bank-name">Bank of India</h1>
+            </div>
+
+            <!-- Navigation Links (Hidden during login, shown after) -->
+            <nav class="sidebar-menu" id="side-menu">
+                <button class="menu-btn active-menu" onclick="navigateTo('dashboard-page', this)">
+                    <span class="menu-icon">🏠</span> Home
+                </button>
+                <button class="menu-btn" onclick="navigateTo('details-page', this)">
+                    <span class="menu-icon">📄</span> Customer Details
+                </button>
+                <button class="menu-btn" onclick="navigateTo('transactions-page', this)">
+                    <span class="menu-icon">🔍</span> Transaction Detection
+                </button>
+                <button class="menu-btn logout-btn" onclick="logOut()">
+                    <span class="menu-icon">🚪</span> Exit / Log Out
+                </button>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT DISPLAY AREA -->
+        <main class="main-content">
+            
+            <!-- Top bar to open menu if closed -->
+            <div class="top-nav-bar" id="topNavBar" style="display: none;">
+                <button class="open-sidebar-btn" onclick="toggleSidebar()">☰ Open Menu</button>
+                <span class="top-bar-title">Bank of India 🏢</span>
+            </div>
+
+            <!-- ================= PAGE 1: LOGIN ================= -->
+            <section id="login-page" class="page active-page">
+                <div class="login-window">
+                    <span class="auth-eyebrow">BANK OF INDIA</span>
+                    <h2>Welcome back</h2>
+                    <p class="helper-text">Sign in to view your account and recent activity.</p>
+                    <div class="auth-tabs" role="tablist" aria-label="Account access">
+                        <button class="auth-tab active-tab" id="login-tab" type="button" role="tab" aria-selected="true" aria-controls="login-form" onclick="showAuthForm('login')">Log in</button>
+                        <button class="auth-tab" id="signup-tab" type="button" role="tab" aria-selected="false" aria-controls="signup-form" onclick="showAuthForm('signup')">Sign up</button>
+                    </div>
+                    <form id="login-form" class="auth-form" onsubmit="logIn(event)">
+                        <label for="acc-number">Account number</label>
+                        <input type="text" placeholder="e.g. 123456789000" id="acc-number" autocomplete="username" required />
+                        <label for="pin">PIN</label>
+                        <input type="password" placeholder="Enter your PIN" id="pin" autocomplete="current-password" required />
+                        <button class="btn btn-start" type="submit">Log in to your account</button>
+                    </form>
+                    <form id="signup-form" class="auth-form" onsubmit="signUp(event)" hidden>
+                        <label for="signup-name">Full name</label>
+                        <input type="text" placeholder="Enter your full name" id="signup-name" autocomplete="name" required />
+                        <label for="signup-account">Account number</label>
+                        <input type="text" placeholder="Enter your account number" id="signup-account" autocomplete="username" required />
+                        <label for="signup-pin">Create PIN</label>
+                        <input type="password" placeholder="At least 4 characters" id="signup-pin" autocomplete="new-password" minlength="4" required />
+                        <label for="confirm-pin">Confirm PIN</label>
+                        <input type="password" placeholder="Re-enter your PIN" id="confirm-pin" autocomplete="new-password" minlength="4" required />
+                        <button class="btn btn-start" type="submit">Create account</button>
+                    </form>
+                    <p class="auth-message" id="auth-message" role="status" aria-live="polite"></p>
+                    <p class="demo-note">Demo interface only. Do not enter real banking details.</p>
+                </div>
+            </section>
+
+            <!-- ================= PAGE 2: DASHBOARD ================= -->
+            <section id="dashboard-page" class="page">
+                <div class="welcome-banner">
+                    <h2>Welcome back, <span class="user-highlight">John Doe</span> 👤</h2>
+                </div>
+
+                <div class="dashboard-grid">
+                    <!-- Balance Card -->
+                    <div class="card balance-card">
+                        <span class="card-icon">💰</span>
+                        <h3>Your Safe Money</h3>
+                        <div class="balance-amount">$4,850.00</div>
+                    </div>
+
+                    <!-- Status Card -->
+                    <div class="card status-card">
+                        <span class="card-icon">🛡️</span>
+                        <h3>Account Status</h3>
+                        <div class="status-badge">SAFE & ACTIVE ✔️</div>
+                    </div>
+                </div>
+
+                <div class="helper-notice">
+                    <p>💡 Use the <b>Transaction Detection</b> menu option on the left side to look for suspicious or fake money activity.</p>
+                </div>
+            </section>
+
+            <!-- ================= PAGE 3: DETAILS ================= -->
+            <section id="details-page" class="page">
+                <div class="section-header">
+                    <h2>📄 Customer Profile Details</h2>
+                </div>
+                
+                <div class="data-table">
+                    <div class="table-row">
+                        <span class="label">Full Name:</span>
+                        <span class="value">John Doe</span>
+                    </div>
+                    <div class="table-row">
+                        <span class="label">Account Number:</span>
+                        <span class="value">1234 - 5678 - 9000</span>
+                    </div>
+                    <div class="table-row">
+                        <span class="label">Registered Phone:</span>
+                        <span class="value">+1 (555) 019-2834</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= PAGE 4: TRANSACTIONS & FRAUD ================= -->
+            <section id="transactions-page" class="page">
+                <div class="section-header">
+                    <h2>🔍 Fraud & Transaction Detection</h2>
+                </div>
+
+                <div class="color-guide">
+                    <div class="guide-item"><span class="indicator green-box"></span> Money In (Safe)</div>
+                    <div class="guide-item"><span class="indicator red-box"></span> Money Out (Safe)</div>
+                    <div class="guide-item"><span class="indicator yellow-box"></span> Warning (Suspicious Fraud!)</div>
+                </div>
+
+                <div class="timeline-container">
+                    <div class="tx-row safe-in">
+                        <div class="tx-left">
+                            <span class="tx-badge">✔️ SAFE</span>
+                            <div class="tx-desc">Monthly Salary Received</div>
+                            <div class="tx-time">July 15, 2026</div>
+                        </div>
+                        <div class="tx-right text-green">+$1,200.00</div>
+                    </div>
+
+                    <div class="tx-row safe-out">
+                        <div class="tx-left">
+                            <span class="tx-badge">✔️ SAFE</span>
+                            <div class="tx-desc">Grocery Store Bill Paid</div>
+                            <div class="tx-time">July 14, 2026</div>
+                        </div>
+                        <div class="tx-right text-red">-$85.00</div>
+                    </div>
+
+                    <!-- FRAUD DETECTED FLAGGED ENTRY -->
+                    <div class="tx-row fraud-warn">
+                        <div class="tx-left">
+                            <span class="tx-badge badge-alert">⚠️ FRAUD DETECTED</span>
+                            <div class="tx-desc">Unknown Store Spend - New York City</div>
+                            <div class="tx-time">July 12, 2026 (Unusual Location Area)</div>
+                        </div>
+                        <div class="tx-right text-red">-$450.00</div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Layout Navigation & Interface Controls -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebarPanel');
+            sidebar.classList.toggle('collapsed');
+        }
+
+        function navigateTo(pageId, element) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active-page'));
+
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active-page');
+            }
+
+            if(element) {
+                const buttons = document.querySelectorAll('.menu-btn');
+                buttons.forEach(btn => btn.classList.remove('active-menu'));
+                element.classList.add('active-menu');
+            }
+
+            // Auto collapse menu on mobile viewports after pick
+            if(window.innerWidth <= 800) {
+                document.getElementById('sidebarPanel').classList.add('collapsed');
+            }
+        }
+
+        function showAuthForm(mode) {
+            const isLogin = mode === 'login';
+            document.getElementById('login-form').hidden = !isLogin;
+            document.getElementById('signup-form').hidden = isLogin;
+            document.getElementById('login-tab').classList.toggle('active-tab', isLogin);
+            document.getElementById('signup-tab').classList.toggle('active-tab', !isLogin);
+            document.getElementById('login-tab').setAttribute('aria-selected', isLogin);
+            document.getElementById('signup-tab').setAttribute('aria-selected', !isLogin);
+            document.getElementById('auth-message').textContent = '';
+        }
+
+        function logIn(event) {
+            event.preventDefault();
+            document.getElementById('side-menu').style.display = 'block';
+            document.getElementById('topNavBar').style.display = 'flex';
+            navigateTo('dashboard-page');
+            document.querySelector('.menu-btn').classList.add('active-menu');
+        }
+
+        function signUp(event) {
+            event.preventDefault();
+            const pin = document.getElementById('signup-pin').value;
+            const confirmPin = document.getElementById('confirm-pin').value;
+            if (pin !== confirmPin) {
+                document.getElementById('auth-message').textContent = 'The PINs do not match. Please try again.';
+                document.getElementById('confirm-pin').focus();
+                return;
+            }
+
+            document.getElementById('acc-number').value = document.getElementById('signup-account').value;
+            document.getElementById('pin').value = pin;
+            document.getElementById('signup-form').reset();
+            showAuthForm('login');
+            document.getElementById('auth-message').textContent = 'Account request complete for this demo. You can now log in.';
+        }
+
+        function logOut() {
+            document.getElementById('side-menu').style.display = 'none';
+            document.getElementById('topNavBar').style.display = 'none';
+            document.getElementById('acc-number').value = '';
+            document.getElementById('pin').value = '';
+            navigateTo('login-page');
+        }
+
+        if (window.innerWidth <= 800) {
+            document.getElementById('sidebarPanel').classList.add('collapsed');
+        }
+    </script>
+</body>
+</html>

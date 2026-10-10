@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebTech Assessment Portal - Solution A (Modular OOP)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <!-- Header -->
+        <header class="quiz-header">
+            <div>
+                <h1>📘 Web Technology Assessment</h1>
+                <p class="subtitle">Solution A: Object-Oriented Component Architecture</p>
+            </div>
+            <div class="header-right">
+                <span class="badge-sol">Solution A (Modular OOP)</span>
+                <div class="timer-box" id="timerBox">
+                    <span class="timer-icon">⏱️</span>
+                    <span id="timerText">00:30</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Progress Tracker -->
+        <div class="progress-section">
+            <div class="progress-meta">
+                <span id="questionCounter">Question 1 of 5</span>
+                <span id="scoreTracker">Score: 0 pts</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <main id="quizScreen" class="card quiz-card">
+            <h2 id="questionTitle" class="question-title">Loading question...</h2>
+            <div id="optionsContainer" class="options-grid">
+                <!-- Populated dynamically -->
+            </div>
+            <div class="card-footer">
+                <div id="feedbackNotice" class="feedback-notice hidden"></div>
+                <button id="nextBtn" class="btn btn-primary hidden">Next Question &rarr;</button>
+            </div>
+        </main>
+
+        <!-- Result Screen -->
+        <section id="resultScreen" class="card result-card hidden">
+            <div class="result-badge">🏆 Assessment Complete</div>
+            <h2 id="finalScoreTitle">Your Score: 0 / 5</h2>
+            <p id="feedbackSummary" class="feedback-summary">Evaluation feedback</p>
+            
+            <div class="action-buttons">
+                <button id="reviewBtn" class="btn btn-secondary">Review Answers</button>
+                <button id="restartBtn" class="btn btn-primary">Retake Assessment</button>
+            </div>
+
+            <!-- Review Section -->
+            <div id="reviewContainer" class="review-section hidden">
+                <h3>Detailed Question Review</h3>
+                <div id="reviewList" class="review-list"></div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

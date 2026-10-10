@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f6f1">
+    <title>Daymark | To-Do List</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <a class="brand" href="#main" aria-label="Daymark home">
+                <span class="brand-mark" aria-hidden="true">D</span>
+                <span>daymark<span class="brand-period">.</span></span>
+            </a>
+            <div class="topbar-date" id="today-label"></div>
+            <button class="button button-primary top-add" id="new-task-button" type="button">
+                <span class="button-icon" aria-hidden="true">+</span>
+                <span>New task</span>
+            </button>
+        </header>
+
+        <div class="workspace">
+            <aside class="sidebar" aria-label="Task navigation">
+                <div class="sidebar-intro">
+                    <p class="eyebrow">YOUR WORKSPACE</p>
+                    <p class="sidebar-note">A little progress, every day.</p>
+                </div>
+
+                <nav class="filter-nav" aria-label="Filter tasks">
+                    <button class="filter-button is-selected" type="button" data-filter="all" aria-pressed="true">
+                        <span class="filter-symbol" aria-hidden="true">◷</span>
+                        <span>All tasks</span>
+                        <span class="filter-count" id="all-count">0</span>
+                    </button>
+                    <button class="filter-button" type="button" data-filter="active" aria-pressed="false">
+                        <span class="filter-symbol" aria-hidden="true">○</span>
+                        <span>To do</span>
+                        <span class="filter-count" id="active-count">0</span>
+                    </button>
+                    <button class="filter-button" type="button" data-filter="completed" aria-pressed="false">
+                        <span class="filter-symbol" aria-hidden="true">✓</span>
+                        <span>Completed</span>
+                        <span class="filter-count" id="completed-count">0</span>
+                    </button>
+                </nav>
+
+                <section class="progress-panel" aria-labelledby="progress-title">
+                    <div class="progress-heading">
+                        <h2 id="progress-title">Daily progress</h2>
+                        <span id="progress-percent">0%</span>
+                    </div>
+                    <div class="progress-track" role="progressbar" aria-label="Tasks completed" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-bar">
+                        <span class="progress-fill" id="progress-fill"></span>
+                    </div>
+                    <p id="progress-caption">A fresh start. Pick one thing to begin.</p>
+                </section>
+
+                <div class="sidebar-footer">
+                    <span class="status-dot" aria-hidden="true"></span>
+                    <span>Saved on this device</span>
+                </div>
+            </aside>
+
+            <main class="main-panel" id="main">
+                <div class="main-heading">
+                    <div>
+                        <p class="eyebrow" id="view-eyebrow">YOUR LIST</p>
+                        <h1 id="view-title">All tasks</h1>
+                        <p class="task-summary" id="task-summary">Make room for what matters.</p>
+                    </div>
+                    <button class="button button-secondary clear-button" id="clear-completed" type="button" hidden>Clear completed</button>
+                </div>
+
+                <div class="list-toolbar">
+                    <label class="search-box" for="task-search">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg>
+                        <input id="task-search" type="search" placeholder="Search your tasks" autocomplete="off">
+                    </label>
+                    <span class="list-date" id="list-date"></span>
+                </div>
+
+                <ul class="task-list" id="task-list" aria-label="Tasks"></ul>
+                <div class="empty-state" id="empty-state" hidden>
+                    <div class="empty-mark" aria-hidden="true">✳</div>
+                    <h2 id="empty-title">Nothing on your list yet</h2>
+                    <p id="empty-description">Start with one small task. You can always add the next later.</p>
+                    <button class="button button-primary" id="empty-add-button" type="button">Create your first task</button>
+                </div>
+                <p class="sr-only" id="live-message" role="status" aria-live="polite"></p>
+            </main>
+        </div>
+    </div>
+
+    <dialog class="task-dialog" id="task-dialog" aria-labelledby="dialog-title">
+        <form id="task-form" method="dialog">
+            <div class="dialog-heading">
+                <div>
+                    <p class="eyebrow">MAKE IT HAPPEN</p>
+                    <h2 id="dialog-title">New task</h2>
+                </div>
+                <button class="icon-button dialog-close" id="close-dialog" type="button" aria-label="Close dialog" title="Close">×</button>
+            </div>
+
+            <label class="field-label" for="task-title">Task</label>
+            <input class="form-control" id="task-title" name="title" type="text" maxlength="120" placeholder="What needs to get done?" required autocomplete="off">
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label class="field-label" for="task-priority">Priority</label>
+                    <select class="form-control" id="task-priority" name="priority">
+                        <option value="normal">Normal</option>
+                        <option value="high">High</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label class="field-label" for="task-due-date">Due date</label>
+                    <div class="date-control">
+                        <input class="form-control" id="task-due-date" name="dueDate" type="date">
+                        <button class="button button-secondary today-button" id="set-today-button" type="button">Today</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dialog-actions">
+                <button class="button button-secondary" id="cancel-dialog" type="button">Cancel</button>
+                <button class="button button-primary" id="save-task-button" type="submit">Add task</button>
+            </div>
+        </form>
+    </dialog>
+</body>
+</html>

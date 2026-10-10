@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenith Budget - Assistant B (Reactive Glassmorphism)</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="ambient-glow"></div>
+    
+    <div class="zenith-container">
+        <!-- Header -->
+        <header class="zenith-header">
+            <div class="brand-group">
+                <div class="brand-icon">✨</div>
+                <div>
+                    <h1>Zenith Expense Intelligence</h1>
+                    <p class="tagline">Implementation B: Functional Reactive State &amp; Glassmorphism</p>
+                </div>
+            </div>
+            <div class="pill-assistant">Assistant B: Claude Style</div>
+        </header>
+
+        <!-- KPI Hero Bar -->
+        <section class="kpi-banner">
+            <div class="kpi-tile balance-tile">
+                <span class="kpi-label">Available Liquidity</span>
+                <span class="kpi-amount" id="balanceDisplay">$0.00</span>
+                <span class="kpi-sub">Calculated Real-Time</span>
+            </div>
+            <div class="kpi-tile income-tile">
+                <span class="kpi-label">Gross Cash In</span>
+                <span class="kpi-amount text-emerald" id="incomeDisplay">+$0.00</span>
+                <span class="kpi-sub" id="incomeCount">0 deposits</span>
+            </div>
+            <div class="kpi-tile expense-tile">
+                <span class="kpi-label">Total Outflows</span>
+                <span class="kpi-amount text-rose" id="expenseDisplay">-$0.00</span>
+                <span class="kpi-sub" id="expenseCount">0 payments</span>
+            </div>
+        </section>
+
+        <!-- Category Budget Visualizer -->
+        <section class="glass-card analytics-card">
+            <div class="card-title-bar">
+                <h2>Category Distribution &amp; Budget Usage</h2>
+                <span class="info-badge">Dynamic Visualizer</span>
+            </div>
+            <div class="budget-bars-container" id="budgetBarsContainer">
+                <!-- Dynamically populated category progress bars -->
+            </div>
+        </section>
+
+        <!-- Dynamic Action Canvas -->
+        <div class="canvas-grid">
+            <!-- Transaction Form -->
+            <section class="glass-card form-card">
+                <h2>Add New Entry</h2>
+                <form id="expenseForm">
+                    <div class="input-field">
+                        <label for="itemDesc">Item Description</label>
+                        <input type="text" id="itemDesc" placeholder="e.g. Graphic Tablet, Cloud Server" required />
+                    </div>
+
+                    <div class="two-col">
+                        <div class="input-field">
+                            <label for="itemAmount">Amount ($)</label>
+                            <input type="number" id="itemAmount" step="0.01" min="0.01" placeholder="0.00" required />
+                        </div>
+                        <div class="input-field">
+                            <label for="flowType">Flow Type</label>
+                            <select id="flowType">
+                                <option value="income">🟢 Inflow (+)</option>
+                                <option value="expense">🔴 Outflow (-)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-field">
+                        <label for="categorySelect">Category</label>
+                        <select id="categorySelect">
+                            <option value="Salary">💼 Salary / Freelance</option>
+                            <option value="Food">🍜 Food &amp; Groceries</option>
+                            <option value="Utilities">⚡ Utilities &amp; Tech</option>
+                            <option value="Entertainment">🎬 Leisure &amp; Fun</option>
+                            <option value="Education">📚 Study &amp; Courses</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="glow-submit-btn">
+                        <span>Record Transaction</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Activity Feed -->
+            <section class="glass-card feed-card">
+                <div class="feed-header">
+                    <h2>Live Activity Ledger</h2>
+                    <div class="filter-pills" id="filterPills">
+                        <button class="pill active" data-filter="all">All</button>
+                        <button class="pill" data-filter="income">Inflows</button>
+                        <button class="pill" data-filter="expense">Outflows</button>
+                    </div>
+                </div>
+
+                <div class="feed-list" id="feedList">
+                    <!-- Populated dynamically -->
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
